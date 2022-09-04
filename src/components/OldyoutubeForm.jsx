@@ -2,6 +2,24 @@ import React from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 
+//this validate fucntion is replaced by yup scehema, any one can be used , yup is easy
+const validate = (values) => {
+  let errors = {};
+  if (!values.name) {
+    errors.name = "Required";
+  }
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.channel) {
+    errors.channel = "Required";
+  }
+
+  return errors;
+};
+
 const initialValues = {
   name: "",
   email: "",
@@ -35,7 +53,9 @@ const YouTubeForm = () => {
             type="text"
             id="name"
             name="name"
-            {...formik.getFieldProps("name")}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.name}
           />
           {formik.touched.name && formik.errors.name ? (
             <div>{formik.errors.name}</div>
@@ -47,7 +67,9 @@ const YouTubeForm = () => {
             type="email"
             id="email"
             name="email"
-            {...formik.getFieldProps("email")}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email ? (
             <div>{formik.errors.email}</div>
@@ -59,7 +81,9 @@ const YouTubeForm = () => {
             type="text"
             id="channel"
             name="channel"
-            {...formik.getFieldProps("channel")}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.channel}
           />
           {formik.touched.channel && formik.errors.channel ? (
             <div>{formik.errors.channel}</div>
